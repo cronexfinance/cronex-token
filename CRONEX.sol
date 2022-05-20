@@ -218,13 +218,13 @@ contract CRONEXToken is ERC20, Ownable {
     function setmarketingTax(uint256 newMarketingTax) public onlyOwner {
         require(newMarketingTax <=  300, "CRONEX: Marketing Tax cannot be above 3% | Format: 100 for 1%"); // marketingTax can only be 3% or below. Cannot be set exorbitantly high.
         marketingTax = newMarketingTax;
-        totalTax = marketingTax + autoLP;
+        totalTax = marketingTax + autoLp;
     }
     
     function setautoLP(uint256 newautoLP) public onlyOwner {
         require(newautoLP <=  300, "CRONEX: Liquidity Tax cannot be above 3% | Format: 100 for 1%"); // marketingTax can only be 3% or below. Cannot be set exorbitantly high.
-        autoLP = newautoLP;
-        totalTax = marketingTax + autoLP;
+        autoLp = newautoLP;
+        totalTax = marketingTax + autoLp;
     }
 
     function setMaxTxAmount(uint256 maxAmount) public onlyOwner {
