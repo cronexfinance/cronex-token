@@ -176,13 +176,12 @@ contract CRONEXToken is ERC20, Ownable {
     address public cronexPair;
     bool private swapping;
 
-    uint256 maxBalance = totalSupply / 100;
-
+    uint256 public maxBalance = totalSupply / 100; // 1%
     uint256 public maxTxAmount = totalSupply / 4 / 100; // 0.25%
-    uint256 marketingTax = 100; // 1%
-    uint256 totalTax = 200;
-    uint256 autoLp = 100; // 1%
-    uint256 swapTokensAtAmount = totalSupply / 1e6;
+    uint256 public marketingTax = 100; // 1%
+    uint256 public totalTax = 200;
+    uint256 public autoLp = 100; // 1%
+    uint256 public swapTokensAtAmount = totalSupply / 1e6;
 
     event ExcludeFromFees(address indexed account, bool isExcluded);
 
@@ -217,6 +216,7 @@ contract CRONEXToken is ERC20, Ownable {
     }
 
     function setMaxTxAmount(uint256 maxAmount) public onlyOwner {
+        require(maxAmount >=  totalSupply / 4 / 100); //maxTxAmount can only be 0.25% or above.
         maxTxAmount = maxAmount;
     }
 
