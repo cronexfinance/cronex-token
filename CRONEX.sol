@@ -176,7 +176,7 @@ contract CRONEXToken is ERC20, Ownable {
     address public cronexPair;
     bool private swapping;
 
-    uint256 public maxBalance = totalSupply / 100; // 1%
+    uint256 public maxBalance = totalSupply / 100; // 1% or 1000 CRONEX Tokens
     uint256 public maxTxAmount = totalSupply / 4 / 100; // 0.25%
     uint256 public marketingTax = 100; // 1%
     uint256 public totalTax = 200;
@@ -214,10 +214,27 @@ contract CRONEXToken is ERC20, Ownable {
     function setSwapPath(address[] memory _path) public onlyOwner {
         path = _path;
     }
+    
+    function setmarketingTax(uint256 newMarketingTax) public onlyOwner {
+        require(newMarketingTax <=  300, "CRONEX: Marketing Tax cannot be above 3% | Format: 100 for 1%"); // marketingTax can only be 3% or below. Cannot be set exorbitantly high.
+        marketingTax = newMarketingTax;
+        totalTax = marketingTax + autoLP;
+    }
+    
+    function setautoLP(uint256 newautoLP) public onlyOwner {
+        require(newautoLP <=  300, "CRONEX: Liquidity Tax cannot be above 3% | Format: 100 for 1%"); // marketingTax can only be 3% or below. Cannot be set exorbitantly high.
+        autoLP = newautoLP;
+        totalTax = marketingTax + autoLP;
+    }
 
     function setMaxTxAmount(uint256 maxAmount) public onlyOwner {
-        require(maxAmount >=  totalSupply / 4 / 100); //maxTxAmount can only be 0.25% or above.
+        require(maxAmount >=  totalSupply / 4 / 100, "CRONEX: Max Transaction cannot be below 0.25%"); // maxTxAmount can only be 0.25% or above. Cannot be set to 0.
         maxTxAmount = maxAmount;
+    }
+    
+    function setMaxBalanceAmount(uint256 maxBalanceAmount) public onlyOwner {
+        require(maxBalanceAmount >=  totalSupply / 100, "CRONEX: Max Wallet cannot be below 1%"); // maxBalance can only be 1% or above. Cannot be set to 1%.
+        maxBalance = maxBalanceAmount;
     }
 
     function execludeFromFees(address account, bool excluded) public onlyOwner {
