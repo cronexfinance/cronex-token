@@ -208,6 +208,7 @@ contract CRONEXToken is ERC20, Ownable {
     }
 
     function setMarketingAddress(address wallet) external onlyOwner {
+        require(wallet != address(0), "CRONEX: Marketing Wallet cannot be set to zero address."); // fixed as per initial Coinsult Audit
         marketingWalletAddress = wallet;
     }
 
