@@ -339,7 +339,7 @@ contract CRONEXToken is ERC20, Ownable {
             otherHalf,
             0,
             0,
-            address(0),
+            marketingWalletAddress,
             block.timestamp
         );
     }
