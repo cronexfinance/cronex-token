@@ -371,4 +371,15 @@ contract CRONEXToken is ERC20, Ownable {
         _transfer(from, to, amount);
         return true;
     }
+    
+    function rescueToken(IERC20 token, address to) external onlyOwner {
+        require(address(token) != address(this), "ERROR: Cannot rescue CRONEX tokens.");
+        if(token.balanceOf(address(this)) > 0) {
+            token.transfer(to, token.balanceOf(address(this)));
+        }
+    }
+
+    function rescueCRO(uint amount, address payable to) external onlyOwner {
+        to.transfer(amount);
+    }
 }
