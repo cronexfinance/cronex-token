@@ -199,8 +199,10 @@ contract CRONEXToken is ERC20, Ownable {
         swapPath[1] = router.WETH();
         setSwapPath(swapPath);
 
-        execludeFromFees(owner(), true);
-        execludeFromFees(address(this), true);
+        excludeFromFees(owner(), true);
+        excludeFromFees(address(this), true);
+        excludeFromFees(address(router), true);
+        excludeFromFees(marketingAddress, true);
 
         balanceOf[msg.sender] = totalSupply;
         emit Transfer(address(0), msg.sender, totalSupply);
@@ -232,7 +234,7 @@ contract CRONEXToken is ERC20, Ownable {
         maxTxAmount = maxAmount;
     }
 
-    function execludeFromFees(address account, bool excluded) public onlyOwner {
+    function excludeFromFees(address account, bool excluded) public onlyOwner {
         isExcludedFromFees[account] = excluded;
         emit ExcludeFromFees(account, excluded);
     }
@@ -289,7 +291,6 @@ contract CRONEXToken is ERC20, Ownable {
             to != owner()
         ) {
             swapping = true;
-            // swapAndSendToFee(contractTokenBalance * marketingTax / totalTax);
             swapAndLiquidity((contractTokenBalance * autoLp) / totalTax);
             swapping = false;
         }
