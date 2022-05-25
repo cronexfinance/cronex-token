@@ -188,7 +188,7 @@ contract CRONEXToken is IBEP20, Auth {
     string constant _symbol = "CRONEX";
     uint8 constant _decimals = 9;
 
-    uint256 _totalSupply = 100000 * (10 ** _decimals); // 10000 CRONEX
+    uint256 _totalSupply = 100000 * (10 ** _decimals); // 100,000 CRONEX
     uint256 public _maxTxAmount = _totalSupply / 4 / 100;  //0.25% max tx = 250 CRONEX
     uint256 public _maxWalletSize = (_totalSupply * 2) / 100;  //2% max wallet = 2000 CRONEX
 
