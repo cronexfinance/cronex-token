@@ -404,6 +404,9 @@ contract CRONEXToken is IBEP20, Auth {
     }
 
     function setFees(uint256 _liquidityFee, uint256 _teamFee, uint256 _marketingFee, uint256 _feeDenominator) external authorized {
+        require(_liquidityFee <=  2, "CRONEX: Liquidity Tax cannot be above 2%");
+        require(_teamFee <=  2, "CRONEX: Team Tax cannot be above 2%");
+        require(_marketingFee <=  2, "CRONEX: Marketing Tax cannot be above 2%");
         liquidityFee = _liquidityFee;
         teamFee = _teamFee;
         marketingFee = _marketingFee;
@@ -412,6 +415,8 @@ contract CRONEXToken is IBEP20, Auth {
     }
 
     function setFeeReceiver(address _marketingFeeReceiver, address _teamFeeReceiver) external authorized {
+        require(_marketingFeeReceiver != address(0), "CRONEX: Marketing Address cannot be 0x00 Address");
+        require(_teamFeeReceiver != address(0), "CRONEX: Team Address cannot be 0x00 Address");
         marketingFeeReceiver = _marketingFeeReceiver;
         teamFeeReceiver = _teamFeeReceiver;
     }
@@ -427,7 +432,7 @@ contract CRONEXToken is IBEP20, Auth {
     }
 
     function rescueToken(address _token) public authorized {
-        require(_token != address(this), "Can't let you take all native token");
+        require(_token != address(this), "CRONEX: Can't remove CRONEX token");
         uint256 _contractBalance = IBEP20(_token).balanceOf(address(this));
         payable(marketingFeeReceiver).transfer(_contractBalance);
     }
